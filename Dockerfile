@@ -8,14 +8,13 @@ COPY . .
 RUN yarn build
 
 # stage 2
-
 # => Run container
 FROM nginx:1.15.2-alpine
-# Static build
+COPY nginx /etc/nginx/
+# # Static build
 COPY --from=builder /app/public /usr/share/nginx/html/
-# Default port exposure
-EXPOSE 80
-# Copy .env file and shell script to container
+# # Default port exposure
+EXPOSE 8080
 WORKDIR /usr/share/nginx/html
 # Add bash
 RUN apk add --no-cache bash
