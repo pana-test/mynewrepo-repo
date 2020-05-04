@@ -24,15 +24,20 @@ pipeline {
                 }
             }
         }
-        stage('run our container') {
+        stage('Run our container') {
             steps{
-                sh "docker run -d --name $APP -p $PORT:8080 $registry:$BUILD_NUMBER"
+                sh """
+                docker rm ${APP} --force || true
+                docker run -d --name $APP -p $PORT:8080 $registry:$BUILD_NUMBER
+                """
             }
         }
-        stage('Cleaning up') {
-            steps{
-                sh "docker rmi $registry:$BUILD_NUMBER"
-            }
-        }
+        // stage('Cleaning up') {
+        //     steps{
+        //         sh """
+        //         docker rmi $registry:$BUILD_NUMBER
+        //         """
+        //     }
+        // }
     }
 }
