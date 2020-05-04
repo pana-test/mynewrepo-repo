@@ -6,11 +6,6 @@ pipeline {
     }
     agent any
     stages {
-        stage('Cloning our Git') {
-            steps {
-                git 'https://github.com/panacloud/skills-website.git'
-            }
-        }
         stage('Building our image') {
             steps{
                 script {
