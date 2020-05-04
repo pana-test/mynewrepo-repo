@@ -3,6 +3,8 @@ pipeline {
         registry = "ameenalam/skillswebsite"
         registryCredential = 'ameenalam'
         dockerImage = 'ameenalam/skillswebsite'
+        APP = "skillswebsite"
+        PORT="8000"
     }
     agent any
     stages {
@@ -20,6 +22,11 @@ pipeline {
                         dockerImage.push()
                     }
                 }
+            }
+        }
+        stage('run our container') {
+            steps{
+                sh "docker run -d --name $APP -p $PORT:8080 $registry:$BUILD_NUMBER"
             }
         }
         stage('Cleaning up') {
