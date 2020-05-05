@@ -32,6 +32,14 @@ pipeline {
                 """
             }
         }
+        stage('Clone another repository') {
+            steps {
+                git branch: 'master',
+                credentialsId: 'ameen-alam',
+                url: 'https://github.com/panacloud/skills-devops.git'
+            }
+        }
+
         // stage('Cleaning up') {
         //     steps{
         //         sh """
