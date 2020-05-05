@@ -32,20 +32,20 @@ pipeline {
                 """
             }
         }
-        stage('Clone another repository') {
-            steps {
-                git branch: 'master',
-                credentialsId: 'ameen-alam',
-                url: 'https://github.com/panacloud/skills-devops.git'
-            }
-        }
-        stage('Apply Terraform') {
-            steps{
-                sh """
-                terraform init
-                """
-            }
-        }
+        // stage('Clone another repository') {
+        //     steps {
+        //         git branch: 'dev',
+        //         credentialsId: 'ameen-alam',
+        //         url: 'https://github.com/panacloud/skills-devops.git'
+        //     }
+        // }
+        // stage('Apply Terraform') {
+        //     steps{
+        //         sh """
+        //         terraform init
+        //         """
+        //     }
+        // }
         // stage('Cleaning up') {
         //     steps{
         //         sh """
