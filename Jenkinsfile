@@ -6,6 +6,9 @@ pipeline {
         APP = "skillswebsite"
         PORT="8000"
     }
+    parameters {
+        string(defaultValue: "123", description: 'This is a parameter', name: 'PARAMETER01')
+    }
     agent any
     stages {
         stage('Building our image') {
@@ -32,6 +35,12 @@ pipeline {
                 """
             }
         }
+        stage('Start'){
+            steps{
+                    build job: 'terraform pipeline', wait: false, parameters: [string(name: 'HELLO', value: String.valueOf(PARAMETER01))]
+            }
+        }
+
         // stage('Clone another repository') {
         //     steps {
         //         git branch: 'dev',
