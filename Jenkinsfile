@@ -35,7 +35,7 @@ pipeline {
         //         """
         //     }
         // }
-        stage('Calling terraform pipeline'){
+        stage('Call terraform pipeline'){
             steps{
                     build job: 'terraform pipeline', wait: false, parameters: [string(name: 'BUILD_NUMBER', value: String.valueOf(params.PARAMETER01))]
             }
