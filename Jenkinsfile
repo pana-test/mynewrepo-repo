@@ -27,15 +27,15 @@ pipeline {
                 }
             }
         }
-        stage('Run our container') {
-            steps{
-                sh """
-                docker rm ${APP} --force || true
-                docker run -d --name $APP -p $PORT:8080 $registry:$BUILD_NUMBER
-                """
-            }
-        }
-        stage('Start'){
+        // stage('Run our container') {
+        //     steps{
+        //         sh """
+        //         docker rm ${APP} --force || true
+        //         docker run -d --name $APP -p $PORT:8080 $registry:$BUILD_NUMBER
+        //         """
+        //     }
+        // }
+        stage('Calling terraform pipeline'){
             steps{
                     build job: 'terraform pipeline', wait: false, parameters: [string(name: 'BUILD_NUMBER', value: String.valueOf(params.PARAMETER01))]
             }
@@ -53,15 +53,15 @@ pipeline {
         //         sh """
         //         terraform init
         //         """
-        //     }
-        // }
-        // stage('Cleaning up') {
-        //     steps{
-        //         sh """
-        //         docker rmi $registry:$BUILD_NUMBER
-        //         """
         // terraform apply -var registry="$registry" -var BUILD_NUMBER="$BUILD_NUMBER"
         //     }
         // }
+        stage('Cleaning up') {
+            steps{
+                sh """
+                docker rmi $registry:$BUILD_NUMBER
+                """
+            }
+        }
     }
 }
