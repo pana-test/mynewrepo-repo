@@ -39,12 +39,19 @@ pipeline {
                 url: 'https://github.com/panacloud/skills-devops.git'
             }
         }
-
+        stage('Apply Terraform') {
+            steps{
+                sh """
+                terraform init
+                """
+            }
+        }
         // stage('Cleaning up') {
         //     steps{
         //         sh """
         //         docker rmi $registry:$BUILD_NUMBER
         //         """
+        // terraform apply -var registry="$registry" -var BUILD_NUMBER="$BUILD_NUMBER"
         //     }
         // }
     }
