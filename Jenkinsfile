@@ -7,7 +7,7 @@ pipeline {
         PORT="8000"
     }
     parameters {
-        string(defaultValue: "123", description: 'This is a parameter', name: 'PARAMETER01')
+        string(defaultValue: "$BUILD_NUMBER", description: 'This is a parameter', name: 'PARAMETER01')
     }
     agent any
     stages {
@@ -37,7 +37,7 @@ pipeline {
         }
         stage('Start'){
             steps{
-                    build job: 'terraform pipeline', wait: false, parameters: [string(name: 'HELLO', value: String.valueOf(params.PARAMETER01))]
+                    build job: 'terraform pipeline', wait: false, parameters: [string(name: 'BUILD_NUMBER', value: String.valueOf(params.PARAMETER01))]
             }
         }
 
