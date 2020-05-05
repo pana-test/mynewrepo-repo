@@ -37,7 +37,7 @@ pipeline {
         }
         stage('Start'){
             steps{
-                    build job: 'terraform pipeline', wait: false, parameters: [string(name: 'HELLO', value: String.valueOf(PARAMETER01))]
+                    build job: 'terraform pipeline', wait: false, parameters: [string(name: 'HELLO', value: String.valueOf(params.PARAMETER01))]
             }
         }
 
