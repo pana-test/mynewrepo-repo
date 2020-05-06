@@ -6,9 +6,6 @@ pipeline {
         APP = "skillswebsite"
         PORT="8000"
     }
-    parameters {
-        string(defaultValue: "$BUILD_NUMBER", description: 'This is a BUILD_NUMBER parameter', name: 'PARAMETER01')
-    }
     agent any
     stages {
         stage('Building our image') {
@@ -37,7 +34,7 @@ pipeline {
         // }
         stage('Call terraform pipeline'){
             steps{
-                    build job: 'terraform pipeline', wait: false, parameters: [string(name: 'BUILD_NUMBER', value: String.valueOf(params.PARAMETER01))]
+                build job: 'terraform pipeline', wait: false, parameters: [string(name: 'BUILD_NUMBER', value: "$BUILD_NUMBER")]
             }
         }
 
