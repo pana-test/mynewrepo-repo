@@ -32,7 +32,7 @@ pipeline {
         //         """
         //     }
         // }
-        stage('Call terraform pipeline'){
+        stage('Integration terraform pipeline'){
             steps{
                 build job: 'terraform pipeline', wait: false, parameters: [string(name: 'BUILD_NUMBER', value: "$BUILD_NUMBER")]
             }
