@@ -7,7 +7,7 @@ pipeline {
         PORT="8000"
     }
     parameters {
-        string(defaultValue: "$BUILD_NUMBER", description: 'This is a parameter', name: 'PARAMETER01')
+        string(defaultValue: "$BUILD_NUMBER", description: 'This is a BUILD_NUMBER parameter', name: 'PARAMETER01')
     }
     agent any
     stages {
