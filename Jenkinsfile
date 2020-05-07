@@ -1,58 +1,50 @@
 pipeline {
     environment {
-        registry = "ameenalam/skillswebsite"
-        registryCredential = 'ameenalam'
-        dockerImage = 'ameenalam/skillswebsite'
+        registry = "gcr.io/skills-online/skillsonline"
+        registryCredential = 'ameen-alam-gcloud'
+        dockerImage = 'gcr.io/skills-online/skillsonline'
         APP = "skillswebsite"
         PORT="8000"
     }
     agent any
     stages {
-        stage('Building our image') {
+        stage('Build') {
             steps{
                 script {
                     dockerImage = docker.build registry + ":$BUILD_NUMBER"
                 }
             }
         }
-        stage('Deploy our image') {
+        stage('Test') {
             steps{
+                sh """
+                docker rm ${APP} --force || true
+                docker run -d --name $APP -p $PORT:8080 $registry:$BUILD_NUMBER
+                """
+            }
+        }
+        stage('Approval') {
+            steps {
                 script {
-                    docker.withRegistry( '', registryCredential ) {
-                        dockerImage.push()
-                    }
+                    def userInput = input(id: 'confirm', message: 'Deploy Image?', parameters: [ [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Deploy Image', name: 'confirm'] ])
                 }
             }
         }
-        // stage('Run our container') {
-        //     steps{
-        //         sh """
-        //         docker rm ${APP} --force || true
-        //         docker run -d --name $APP -p $PORT:8080 $registry:$BUILD_NUMBER
-        //         """
-        //     }
-        // }
-        stage('Integration terraform pipeline'){
+        stage('Deploy') {
+            steps{
+                sh "gcloud docker push $dockerImage"
+                // script {
+                    // docker.withRegistry( '', registryCredential ) {
+                    //     dockerImage.push()
+                    // }
+                // }
+            }
+        }
+        stage('Integration Terraform'){
             steps{
                 build job: 'terraform pipeline', wait: false, parameters: [string(name: 'BUILD_NUMBER', value: "$BUILD_NUMBER")]
             }
         }
-
-        // stage('Clone another repository') {
-        //     steps {
-        //         git branch: 'dev',
-        //         credentialsId: 'ameen-alam',
-        //         url: 'https://github.com/panacloud/skills-devops.git'
-        //     }
-        // }
-        // stage('Apply Terraform') {
-        //     steps{
-        //         sh """
-        //         terraform init
-        //         """
-        // terraform apply -var registry="$registry" -var BUILD_NUMBER="$BUILD_NUMBER"
-        //     }
-        // }
         stage('Cleaning up') {
             steps{
                 sh "docker rmi $registry:$BUILD_NUMBER"
