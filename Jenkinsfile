@@ -32,23 +32,23 @@ pipeline {
         }
         stage('Deploy') {
             steps{
-                sh "gcloud docker push $dockerImage"
-                // script {
-                    // docker.withRegistry( '', registryCredential ) {
-                    //     dockerImage.push()
-                    // }
-                // }
+                // sh "gcloud docker push $dockerImage"
+                script {
+                    docker.withRegistry( 'https://gcr.io', registryCredential ) {
+                        dockerImage.push()
+                    }
+                }
             }
         }
-        stage('Integration Terraform'){
-            steps{
-                build job: 'terraform pipeline', wait: false, parameters: [string(name: 'BUILD_NUMBER', value: "$BUILD_NUMBER")]
-            }
-        }
-        stage('Cleaning up') {
-            steps{
-                sh "docker rmi $registry:$BUILD_NUMBER"
-            }
-        }
+        // stage('Integration Terraform'){
+        //     steps{
+        //         build job: 'terraform pipeline', wait: false, parameters: [string(name: 'BUILD_NUMBER', value: "$BUILD_NUMBER")]
+        //     }
+        // }
+        // stage('Cleaning up') {
+        //     steps{
+        //         sh "docker rmi $registry:$BUILD_NUMBER"
+        //     }
+        // }
     }
 }
