@@ -2,7 +2,7 @@ pipeline {
     environment {
         registry = "gcr.io/skills-online/skillsonline"
         registryCredential = 'skills-online-project1'
-        dockerImage = 'gcr.io/skills-online/skillsonline:40'
+        dockerImage = 'gcr.io/skills-online/skillsonline'
         APP = "skillswebsite"
         PORT="8000"
     }
@@ -21,7 +21,7 @@ pipeline {
                 docker pull ameenalam/skillswebsite:40
                 docker tag ameenalam/skillswebsite:40 gcr.io/skills-online/skillsonline:40
                 docker rm ${APP} --force || true
-                docker run -d --name $APP -p $PORT:8080 $dockerImage
+                docker run -d --name $APP -p $PORT:8080 $dockerImage:40
                 """
                 // docker run -d --name $APP -p $PORT:8080 $registry:$BUILD_NUMBER
                 
@@ -52,7 +52,8 @@ pipeline {
                     //     dockerImage.push()
                     // }
                     docker.withRegistry('https://eu.gcr.io', 'gcr:skills-online-project1') {
-                        dockerImage.push()
+                        dockerImage.push("40")
+                        dockerImage.push("latest")
                     }
 
                 }
