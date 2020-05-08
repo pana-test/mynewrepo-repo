@@ -44,6 +44,12 @@ pipeline {
         //     }
         // }
 
+        stage('Build image') {
+            steps{
+                app = docker.build("gcr.io/skills-online/skillsonline")
+            }
+        }
+
         stage('Deploy') {
             steps{
                 // sh "gcloud docker push $dockerImage"
@@ -52,8 +58,8 @@ pipeline {
                     //     dockerImage.push()
                     // }
                     docker.withRegistry('https://eu.gcr.io', 'gcr:skills-online-project1') {
-                        dockerImage.push("40")
-                        dockerImage.push("latest")
+                        app.push("$BUILD_NUMBER")
+                        app.push("latest")
                     }
 
                 }
