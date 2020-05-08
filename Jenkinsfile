@@ -34,30 +34,30 @@ pipeline {
         //         }
         //     }
         // }
-        stage('Build image') {
-            app = docker.build("gcr.io/skills-online/skillsonline")
-        }
-        stage('Push image') {
-            docker.withRegistry('https://eu.gcr.io', 'skills-online-project1') {
-                app.push("${env.BUILD_NUMBER}")
-                app.push("latest")
-            }
-        }
-
-        // stage('Deploy') {
-        //     steps{
-        //         // sh "gcloud docker push $dockerImage"
-        //         script {
-        //             // docker.withRegistry( 'https://us.gcr.io', registryCredential ) {
-        //             //     dockerImage.push()
-        //             // }
-        //             docker.withRegistry('https://eu.gcr.io', 'gcr:[skills-online-project1]') {
-        //                 dockerImage.push()
-        //             }
-
-        //         }
+        // stage('Build image') {
+        //     app = docker.build("gcr.io/skills-online/skillsonline")
+        // }
+        // stage('Push image') {
+        //     docker.withRegistry('https://eu.gcr.io', 'skills-online-project1') {
+        //         app.push("${env.BUILD_NUMBER}")
+        //         app.push("latest")
         //     }
         // }
+
+        stage('Deploy') {
+            steps{
+                // sh "gcloud docker push $dockerImage"
+                script {
+                    // docker.withRegistry( 'https://us.gcr.io', registryCredential ) {
+                    //     dockerImage.push()
+                    // }
+                    docker.withRegistry('https://eu.gcr.io', 'gcr:skills-online-project1') {
+                        dockerImage.push()
+                    }
+
+                }
+            }
+        }
         // stage('Integration Terraform'){
         //     steps{
         //         build job: 'terraform pipeline', wait: false, parameters: [string(name: 'BUILD_NUMBER', value: "$BUILD_NUMBER")]
