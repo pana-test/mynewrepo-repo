@@ -38,9 +38,13 @@ pipeline {
             steps{
                 // sh "gcloud docker push $dockerImage"
                 script {
-                    docker.withRegistry( 'https://us.gcr.io', registryCredential ) {
+                    // docker.withRegistry( 'https://us.gcr.io', registryCredential ) {
+                    //     dockerImage.push()
+                    // }
+                    docker.withRegistry('https://eu.gcr.io', 'gcr:[registryCredential]') {
                         dockerImage.push()
                     }
+
                 }
             }
         }
