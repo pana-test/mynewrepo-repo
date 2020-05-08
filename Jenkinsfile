@@ -1,7 +1,7 @@
 pipeline {
     environment {
         registry = "gcr.io/skills-online/skillsonline"
-        registryCredential = 'skills-online'
+        registryCredential = 'skills-online-project1'
         dockerImage = 'gcr.io/skills-online/skillsonline'
         APP = "skillswebsite"
         PORT="8000"
