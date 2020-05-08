@@ -41,7 +41,7 @@ pipeline {
                     // docker.withRegistry( 'https://us.gcr.io', registryCredential ) {
                     //     dockerImage.push()
                     // }
-                    docker.withRegistry('https://eu.gcr.io', 'gcr:[registryCredential]') {
+                    docker.withRegistry('https://eu.gcr.io', 'gcr:[skills-online-project1]') {
                         dockerImage.push()
                     }
 
