@@ -8,25 +8,25 @@ pipeline {
     }
     agent any
     stages {
-        // stage('Build') {
-        //     steps{
-        //         script {
-        //             dockerImage = docker.build registry + ":$BUILD_NUMBER"
-        //         }
-        //     }
-        // }
-        stage('Test') {
+        stage('Build') {
             steps{
-                sh """
-                docker pull ameenalam/skillswebsite:40
-                docker tag ameenalam/skillswebsite:40 gcr.io/skills-online/skillsonline:40
-                docker rm ${APP} --force || true
-                docker run -d --name $APP -p $PORT:8080 $dockerImage:40
-                """
-                // docker run -d --name $APP -p $PORT:8080 $registry:$BUILD_NUMBER
-                
+                script {
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                }
             }
         }
+        // stage('Test') {
+        //     steps{
+        //         sh """
+        //         docker pull ameenalam/skillswebsite:40
+        //         docker tag ameenalam/skillswebsite:40 gcr.io/skills-online/skillsonline:40
+        //         docker rm ${APP} --force || true
+        //         docker run -d --name $APP -p $PORT:8080 $dockerImage:40
+        //         """
+        //         // docker run -d --name $APP -p $PORT:8080 $registry:$BUILD_NUMBER
+                
+        //     }
+        // }
         // stage('Approval') {
         //     steps {
         //         script {
@@ -44,11 +44,11 @@ pipeline {
         //     }
         // }
 
-        stage('Build image') {
-            steps{
-                app = docker.build("gcr.io/skills-online/skillsonline")
-            }
-        }
+        // stage('Build image') {
+        //     steps{
+        //         app = docker.build("gcr.io/skills-online/skillsonline")
+        //     }
+        // }
 
         stage('Deploy') {
             steps{
@@ -58,8 +58,8 @@ pipeline {
                     //     dockerImage.push()
                     // }
                     docker.withRegistry('https://eu.gcr.io', 'gcr:skills-online-project1') {
-                        app.push("$BUILD_NUMBER")
-                        app.push("latest")
+                        dockerImage.push()
+                        // dockerImage.push("latest")
                     }
 
                 }
