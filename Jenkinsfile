@@ -32,7 +32,7 @@ pipeline {
                 script {
                     def userInput = input(id: 'confirm', message: 'Deploy Image?', parameters: [ [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Deploy Image', name: 'confirm'] ])
                 }
-                slackSend channel: '#terraform-approval' , color: "#439FE0" , message: "Approved"
+                slackSend channel: '#terraform-approval' , color: "#439FE0" , message: "Approved by ${env.BUILD_USER_ID}"
             }
         }
         stage('Deploy GCR') {
