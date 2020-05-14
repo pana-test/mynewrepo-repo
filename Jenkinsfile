@@ -14,7 +14,7 @@ pipeline {
                 script {
                     dockerImage = docker.build registry + ":$BUILD_NUMBER"
                 }
-                slackSend channel: '#terraform-approval' , color: "#439FE0" , message: "Successfully containerized Gatsby build"
+                slackSend channel: '#terraform-approval' , color: "#439FE0" , message: "Successfully containerized Gatsby build $dockerImage"
             }
         }
         stage('Test') {
@@ -48,7 +48,7 @@ pipeline {
         stage('Integration Terraform'){
             steps{
                 build job: 'terraform pipeline', wait: false, parameters: [string(name: 'BUILD_NUMBER', value: "$BUILD_NUMBER")]
-                slackSend channel: '#terraform-approval' , color: "#439FE0" , message: "Integration Terraform"
+                slackSend channel: '#terraform-approval' , color: "#439FE0" , message: "Integration Terraform Pipeline"
             }
         }
         stage('Cleaning up') {
