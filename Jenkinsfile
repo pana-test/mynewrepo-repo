@@ -19,7 +19,7 @@ pipeline {
         }
         stage('Test') {
             steps{
-                slackSend channel: '#terraform-approval' , color: "#439FE0" , message: "test latest build by this URL \ n https://404 \n the testing process is under development"
+                slackSend channel: '#terraform-approval' , color: "#439FE0" , message: "test latest build by this URL \n https://404 \n the testing process is under development"
         //         sh """
         //         docker rm ${APP} --force || true
         //         docker run -d --name $APP -p $PORT:8080 $registry:$BUILD_NUMBER
