@@ -31,12 +31,15 @@ jobs:
               run: yarn install --prod --pure-lockfile
 
             # Gatsby Lint
-            # - name: Lint
-            #   run: yarn run lint
+            - name: Lint
+              run: yarn run lint
 
             # Gatsby Build
             - name: Build
-              run: yarn run build                  
+              run: |
+                  yarn run build
+                  echo gatsby build 
+                  ls
 
             # Setup gcloud CLI
             - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
@@ -50,7 +53,7 @@ jobs:
               run: |
                   gcloud config set project $PROJECT_ID
             # Build and push image to Google Container Registry
-            - name: Build
+            - name: Build Submit
               run: |
                   gcloud builds submit -t gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA
             # Deploy image to Cloud Run
