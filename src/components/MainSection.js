@@ -19,7 +19,6 @@ const MainSection = ({ title }) => {
         className="background"
         alt="title"
       />
-
       <Typography
         variant="h4"
         className="title"
