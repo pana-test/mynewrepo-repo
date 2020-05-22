@@ -9,7 +9,7 @@
     "lint": "eslint src/ && prettier --check 'src/**/*.js'",
     "fix": "eslint --fix src/ && prettier --write 'src/**/*.js'",
     "start": "npm run develop",
-    "build": "gatsby build --prefix-paths",
+    "build": "gatsby build",
     "serve": "gatsby serve",
     "deploy": "gatsby build --prefix-paths && gh-pages -d public"
   },
