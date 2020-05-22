@@ -30,7 +30,7 @@ jobs:
             - name: Install dependencies
               run: yarn install --prod --pure-lockfile
 
-            # Gatsby Lint
+            # Gatsby Lint for check performance
             # - name: Lint
             #   run: yarn run lint
 
