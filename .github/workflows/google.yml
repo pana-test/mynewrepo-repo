@@ -38,7 +38,7 @@ jobs:
             - name: Build
               run: |
                   yarn run build
-                  echo gatsby build 
+                  echo show directory list 
                   ls
 
             # Setup gcloud CLI
