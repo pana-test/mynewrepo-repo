@@ -37,7 +37,7 @@ jobs:
             # Gatsby Build
             - name: Build
               run: |
-                  gatsby build
+                  yarn run build
                   echo gatsby build 
                   ls
 
