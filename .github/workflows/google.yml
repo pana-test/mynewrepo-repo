@@ -20,6 +20,24 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v1
 
+            # Set Up Node JS
+            - name: Set Node.js
+              uses: actions/setup-node@master
+              with:
+                node-version: 12.x
+
+            # Install dependencies
+            - name: Install dependencies
+              run: yarn install --prod --pure-lockfile
+
+            # Gatsby Lint
+            # - name: Lint
+            #   run: yarn run lint
+
+            # Gatsby Build
+            - name: Build
+              run: yarn run build                  
+
             # Setup gcloud CLI
             - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
               with:
